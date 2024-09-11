@@ -1,0 +1,10 @@
+# DATABASE STRUCTURE:
+
+user=> [id], @name,First_name, last_name , description, profile_img, timestamps, password, email
+post=>[id], content, #(user.id)poster_id,
+==================================================================================
+vue=> [id], #(user.id)user, #(post.id)post,
+comment => [id], #(user.id)user, #(post.id)post, content,
+like => [id], #(user.id)user, #(post.id)post
+-------------------------------------------------------------------------
+image => [id], #(post.id)post, image_path
