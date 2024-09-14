@@ -7,4 +7,6 @@ vue=> [id], #(user.id)user, #(post.id)post,
 comment => [id], #(user.id)user, #(post.id)post, content,
 like => [id], #(user.id)user, #(post.id)post
 -------------------------------------------------------------------------
+//mnb3d
 image => [id], #(post.id)post, image_path
+video => [id], #(post.id)post, video_path

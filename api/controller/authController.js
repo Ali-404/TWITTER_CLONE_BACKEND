@@ -1,7 +1,7 @@
 import user from "../models/user.js";
 import db, { errMsg } from '../models/index.js'
 import {check, validationResult} from "express-validator"
-
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 
 
@@ -17,6 +17,7 @@ export default class AuthController{
 
     static async getUsers(req,res){
         try {
+            console.log(req.user)
             const database = await db;
             const users = await user(database.sequelize).findAll();
             return res.json(users)
@@ -66,20 +67,15 @@ export default class AuthController{
         try {
             const database = await db;
             const { username, email, password, first_name, last_name } = req.body;
-            const theUser = await user(database.sequelize).create({
-                "username":username,
-                "email":email,
-                "password":password,
-                "first_name":first_name,
-                "last_name":last_name
-            })
-            theUser.save()
+            const theUser = await user(database.sequelize).createUser(username, email, password, first_name, last_name)
             return res.json(theUser)
 
         }catch (e){
             return errMsg(res, e)
         }
     }
+
+    
 
 
 
@@ -88,11 +84,17 @@ export default class AuthController{
             const {username, password} = req.body;
             const database = await db;
             const theUser = await user(database.sequelize).findOne({
-                "username": username,
-                "password": password 
-            })
-
+                "where": {
+                    "username": username,
+                },
+                "raw": true
+            },)
+            
+            
             if (theUser){
+                if (!bcrypt.compareSync(password, theUser.password)){
+                    throw new Error("Wrong Password !")
+                }
                 console.log(process.env.ACCESS_TOKEN_SECRET)
                 const accessToken = AuthController.generateAccessToken(theUser)
                 return res.json({
@@ -101,7 +103,7 @@ export default class AuthController{
                 })
             }
 
-            return errMsg(res, "Username or password incorrect !",401)
+            return errMsg(res, "Username incorrect !",401)
 
 
 
@@ -111,7 +113,14 @@ export default class AuthController{
     }
 
     static generateAccessToken(theUser){
-        return jwt.sign({userid: theUser.id}, process.env.ACCESS_TOKEN_SECRET)
+        return jwt.sign({userid: theUser.id}, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "1h"
+        })
+    }
+
+
+    static user(req, res){
+        return res.json(req.user)
     }
     
 }

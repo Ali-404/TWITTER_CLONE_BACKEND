@@ -1,4 +1,5 @@
 import { configDotenv } from "dotenv";
+import cors from './middlewares/cors.js'
 configDotenv();
 
 
@@ -7,7 +8,10 @@ import e,{} from "express"
 import web from "./routes/web.js"
 const app = e()
 
+
+
 // middlewares
+app.use(cors)
 app.use(e.json()); 
 
 

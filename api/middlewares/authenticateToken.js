@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
             id:userid
         })
         if (theUser){
-            req.user = theUser
+            req.user = (await theUser)
             next()
             
         }else {
