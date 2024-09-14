@@ -21,6 +21,7 @@ export default (sequelize) => {
   },{
     sequelize,
     modelName: 'Like',
+    tableName: "likes"
   });
 
   

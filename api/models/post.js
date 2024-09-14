@@ -16,10 +16,11 @@ export default (sequelize) => {
   }
   Post.init({
     content: DataTypes.TEXT,
-    posterId:DataTypes.INTEGER
+    posterId:DataTypes.INTEGER,
   },{
     sequelize,
     modelName: 'Post',
+    tableName: "posts"
   });
 
   

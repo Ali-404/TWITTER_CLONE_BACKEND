@@ -1,37 +1,40 @@
 'use strict';
 
+
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
+module.exports =  {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('vues', { 
+    await queryInterface.createTable('posts', { 
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      viewerId: {
-        allowNull: false, 
+      content: {
+        type: Sequelize.TEXT
+      },
+      posterId:{
         type: Sequelize.INTEGER,
         references: {
           model: "Users",
           key: 'id',
         }
       },
-
-      postId: {
+      createdAt: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: "posts",
-          key: 'id',
-        }
+        type: Sequelize.DATE,
+        default: new Date(),
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        default: new Date(),
       }
-
      });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('vues');
+    await queryInterface.dropTable('posts');
   }
 };

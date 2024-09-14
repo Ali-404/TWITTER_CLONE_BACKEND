@@ -22,6 +22,7 @@ export default (sequelize) => {
   },{
     sequelize,
     modelName: 'Comment',
+    tableName: "comments"
   });
 
   
