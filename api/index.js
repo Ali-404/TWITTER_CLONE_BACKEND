@@ -9,7 +9,6 @@ import web from "./routes/web.js"
 const app = e()
 
 
-
 // middlewares
 app.use(cors)
 app.use(e.json()); 

@@ -37,5 +37,6 @@ export default  (async () => {
 
 
 export function errMsg(res, e, errorNumber = 500) {
-  return res.status(errorNumber).json({error: e.message ?? e})
+  const message = typeof (e) == "string" ? e : e.message 
+  return res.status(errorNumber).json({error: message})
 }

@@ -11,16 +11,17 @@ const authenticateToken = (req, res, next) => {
         })
     }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, userid)=>{
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, data)=>{
         if (err) {
             return res.status(403).send({ message: 'Failed to authenticate token' })
         }
         const database = await db;
-        const theUser = user(database.sequelize).findOne({
-            id:userid
-        })
+
+        const theUser = await user(database.sequelize).findOne({raw: true,where:{
+            id:data.userid,
+        }})
         if (theUser){
-            req.user = (await theUser)
+            req.user = theUser
             next()
             
         }else {

@@ -17,7 +17,7 @@ export default class AuthController{
 
     static async getUsers(req,res){
         try {
-            console.log(req.user)
+            
             const database = await db;
             const users = await user(database.sequelize).findAll();
             return res.json(users)
@@ -81,11 +81,11 @@ export default class AuthController{
 
     static async login(req, res){
         try {
-            const {username, password} = req.body;
+            const {email, password} = req.body;
             const database = await db;
             const theUser = await user(database.sequelize).findOne({
                 "where": {
-                    "username": username,
+                    "email": email,
                 },
                 "raw": true
             },)
@@ -93,6 +93,7 @@ export default class AuthController{
             
             if (theUser){
                 if (!bcrypt.compareSync(password, theUser.password)){
+                    console.error("wrong password")
                     throw new Error("Wrong Password !")
                 }
                 console.log(process.env.ACCESS_TOKEN_SECRET)
@@ -102,12 +103,13 @@ export default class AuthController{
                     "token": accessToken,
                 })
             }
-
-            return errMsg(res, "Username incorrect !",401)
+            
+            return errMsg(res, "Email incorrect !",400)
 
 
 
         }catch(e) {
+            console.error(e)
             return errMsg(res, e)
         }
     }
@@ -119,7 +121,7 @@ export default class AuthController{
     }
 
 
-    static user(req, res){
+    static getUser(req, res){
         return res.json(req.user)
     }
     

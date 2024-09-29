@@ -5,7 +5,12 @@ import authenticateToken from '../middlewares/authenticateToken.js'
 const PostsRouter = Router()
 
 PostsRouter.get("/", PostController.index)
-PostsRouter.post("/create",authenticateToken, PostController.createValidation(), PostController.create)
+PostsRouter.post("/create",authenticateToken, PostController.ContentValidation(), PostController.create)
+
+
+PostsRouter.put("/edit/:id",authenticateToken, PostController.ContentValidation(), PostController.edit)
+
+PostsRouter.delete("/delete/:id",authenticateToken, PostController.delete)
 
 
 

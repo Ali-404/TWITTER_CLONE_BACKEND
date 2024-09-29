@@ -3,9 +3,27 @@
 
 import {Router} from "express";
 import WebController from '../controller/webController.js'
+
+
+// Routes
 import AuthRouter from './auth.js'
 import PostsRouter from "./posts.js";
+import VuesRouter from "./vues.js";
 
+const Routes = [
+    {
+        path: "/auth",
+        router: AuthRouter
+    },
+    {
+        path: "/posts",
+        router: PostsRouter
+    },
+    {
+        path: "/vues",
+        router: VuesRouter
+    }
+]
 
 const web =  Router();
 
@@ -16,11 +34,12 @@ const web =  Router();
 // # OR A SIMPLE WIKI FOR THE API
 web.get("/", WebController.get)
 
-// authentication routers
-web.use("/auth", AuthRouter)
 
-// posts router
-web.use("/posts", PostsRouter)
+
+// GENERATE ROUTES
+Routes.forEach(route => {
+    web.use(route.path, route.router)
+})
 
 
 export default web;
