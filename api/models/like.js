@@ -17,7 +17,7 @@ export default (sequelize) => {
   }
   Like.init({
     likerId: DataTypes.INTEGER,
-    postId: DataTypes.INTEGER
+    posterId: DataTypes.INTEGER
   },{
     sequelize,
     modelName: 'Like',

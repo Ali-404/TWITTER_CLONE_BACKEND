@@ -9,6 +9,7 @@ const AuthRouter = Router();
 AuthRouter.get("/", AuthController.index)
 
 AuthRouter.get("/users",authenticateToken,AuthController.getUsers)
+AuthRouter.get("/users/:id",authenticateToken,AuthController.getUserById)
 AuthRouter.get("/user",authenticateToken,AuthController.getUser)
 
 

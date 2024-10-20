@@ -27,6 +27,24 @@ export default class AuthController{
     }
 
 
+    static async getUserById(req, res){
+        try {
+            const {id} = req.params
+            const database = await db;
+            const theUser = await user(database.sequelize).findOne({
+                where: {
+                    id
+                }
+            });
+
+
+            return res.json(theUser);
+        }catch(e) {
+            return errMsg(res, e)
+        }
+    }
+
+
     // register
 
     static validateUserCreation(){
@@ -46,7 +64,6 @@ export default class AuthController{
                 .exists()
                 .trim()
                 .isEmail()
-                .normalizeEmail()
                 .custom(async email => {
                     const database = await db;
                     const value = await user(database.sequelize).findOne({ where: { email: email } });
@@ -66,8 +83,8 @@ export default class AuthController{
         }
         try {
             const database = await db;
-            const { username, email, password, first_name, last_name } = req.body;
-            const theUser = await user(database.sequelize).createUser(username, email, password, first_name, last_name)
+            const { username, email, password, firstName, lastName } = req.body;
+            const theUser = await user(database.sequelize).createUser(username, email, password, firstName, lastName)
             return res.json(theUser)
 
         }catch (e){

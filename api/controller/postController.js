@@ -1,14 +1,28 @@
 import { check, validationResult } from 'express-validator';
 import db, { errMsg } from '../models/index.js'
 import post from '../models/post.js'
+import vue from '../models/vue.js'
+import comment from '../models/comment.js'
+
 
 export default class PostController{
     static async index(request, response){
-
+        const {page = 1, limit = 5 } = request.query
+        
+        
+        const startIndex = (page - 1) * limit
+        const endIndex = (page  * limit )
         
         const sequelize = (await db).sequelize;
-        const posts = await post(sequelize).findAll()
-        return response.json(posts)
+        const posts = (await post(sequelize).findAll()).reverse()
+        
+        const nextData = posts.slice(endIndex).length > 0 
+        return response.json({
+            posts: posts.slice(startIndex, endIndex),
+            page,
+            limit,
+            nextDataExists: nextData
+        })
     }
 
 
@@ -102,14 +116,26 @@ export default class PostController{
                 const userid = request.user.id
                 const sequelize = (await db).sequelize;
                 const thePost = await post(sequelize).findOne({where: {id: id, posterId: userid}})
-        
+                
                 if (!thePost){
                     return response.json({
                         "error": "Invalid or unaccesable Post"
                     }).status(409) 
                     // 409 = cant edit 
                 }
-    
+                // remove vues
+                const vues = await vue(sequelize).findAll({where: {postId: id}});
+                if (vues){
+                    vues.forEach(vue => vue.destroy())
+                }
+
+                // remove comments
+                const comments = await comment(sequelize).findAll({where: {postId: id}});
+                if (comments){
+                    comments.forEach(c => c.destroy())
+                }
+                
+
                 thePost.destroy()
                 return response.json({
                     "message":`Post #${thePost.id} deleted successfully.`

@@ -18,6 +18,14 @@ module.exports = {
           key: 'id',
         }
       },
+      postId: {
+        allowNull: false, 
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Posts",
+          key: 'id',
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

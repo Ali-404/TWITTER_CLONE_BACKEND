@@ -31,7 +31,7 @@ export default (sequelize) => {
     modelName: 'User',
   });
 
-  User.createUser = async (username, email, password, first_name = "", last_name = "", profile_url = null, description = null) => {
+  User.createUser = async (username, email, password, first_name, last_name, profile_url = null, description = null) => {
 
     const salt = await bcrypt.genSalt(10);
     const hash = bcrypt.hashSync(password, salt)
@@ -40,8 +40,8 @@ export default (sequelize) => {
         "username":username,
         "email":email,
         "password":hash,
-        "first_name":first_name,
-        "last_name":last_name,
+        "firstName":first_name,
+        "lastName":last_name,
         "profile_img":profile_url,
         description: description
     })

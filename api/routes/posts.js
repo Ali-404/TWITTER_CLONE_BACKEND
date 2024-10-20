@@ -4,7 +4,7 @@ import authenticateToken from '../middlewares/authenticateToken.js'
 
 const PostsRouter = Router()
 
-PostsRouter.get("/", PostController.index)
+PostsRouter.get("/", authenticateToken,PostController.index)
 PostsRouter.post("/create",authenticateToken, PostController.ContentValidation(), PostController.create)
 
 

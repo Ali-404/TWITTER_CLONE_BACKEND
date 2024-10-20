@@ -8,8 +8,19 @@ export default class VueController{
 
     static async index(request, response){
         const sequelize = (await db).sequelize;
-        const vues = vue(sequelize).findAll()
-        return response.json(vues)
+        const vues = await vue(sequelize).findAll()
+        return response.json([...vues])
+    }
+
+    static async getPostVues(request, response){
+        const {postId} = request.params
+        const sequelize = (await db).sequelize;
+        const  vues = await vue(sequelize).findAll({
+            where: {
+                postId
+            }
+        })
+        return response.json([...vues])
     }
 
 
@@ -68,11 +79,10 @@ export default class VueController{
             if (alreadyVueExists){
                 return errMsg(response, "Already viewed !", 422)
             }
-            await vue(sequelize).create({ "postId":postId, "viewerId":viewerId });
+            const newVue = await vue(sequelize).create({ "postId":postId, "viewerId":viewerId });
+            newVue.save()
 
-            return response.json({
-                message: `New Vue for post #${postId} by user id ${viewerId}`
-            }).status(201)
+            return response.json(newVue).status(201)
 
         }catch(e) {
             return errMsg(response, e)

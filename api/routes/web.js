@@ -9,6 +9,8 @@ import WebController from '../controller/webController.js'
 import AuthRouter from './auth.js'
 import PostsRouter from "./posts.js";
 import VuesRouter from "./vues.js";
+import LikesRouter from "./likes.js";
+import CommentsRouter from "./comments.js";
 
 const Routes = [
     {
@@ -22,6 +24,14 @@ const Routes = [
     {
         path: "/vues",
         router: VuesRouter
+    },
+    {
+        path: "/likes",
+        router: LikesRouter
+    },
+    {
+        path: "/comments",
+        router: CommentsRouter
     }
 ]
 

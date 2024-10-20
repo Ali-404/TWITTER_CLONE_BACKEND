@@ -5,8 +5,9 @@ import authenticateToken from "../middlewares/authenticateToken.js";
 const VuesRouter = Router()
 
 VuesRouter.get("/", authenticateToken,VuesController.index)
+VuesRouter.get("/:postId", authenticateToken,VuesController.getPostVues)
 
-VuesRouter.post("/add",VuesController.addVueValidation(),VuesController.addVue)
+VuesRouter.post("/add",authenticateToken,VuesController.addVueValidation(),VuesController.addVue)
 
 
 export default VuesRouter;
