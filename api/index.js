@@ -1,6 +1,11 @@
-import { configDotenv } from "dotenv";
+import dotenv from "dotenv";
 import cors from './middlewares/cors.js'
-configDotenv();
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
 
 
@@ -12,6 +17,16 @@ const app = e()
 // middlewares
 app.use(cors)
 app.use(e.json()); 
+
+
+
+// files
+
+// Define storage settings
+
+  // Initialize multer with storage settings
+// export const upload = multer({ storage: storage });
+app.use('/uploads', e.static(path.join(__dirname, 'uploads')));
 
 
 app.get("/",(_,res) =>res.redirect("/api/v1"));

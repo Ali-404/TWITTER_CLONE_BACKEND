@@ -11,6 +11,8 @@ import PostsRouter from "./posts.js";
 import VuesRouter from "./vues.js";
 import LikesRouter from "./likes.js";
 import CommentsRouter from "./comments.js";
+import FilesRouter from "./files.js";
+import MailingRouter from "./mailing.js";
 
 const Routes = [
     {
@@ -32,7 +34,15 @@ const Routes = [
     {
         path: "/comments",
         router: CommentsRouter
-    }
+    },
+    {
+        path: "/files",
+        router: FilesRouter
+    },
+    {
+        path: "/mail",
+        router: MailingRouter
+    },
 ]
 
 const web =  Router();

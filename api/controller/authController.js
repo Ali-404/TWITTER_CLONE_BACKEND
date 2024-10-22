@@ -92,7 +92,31 @@ export default class AuthController{
         }
     }
 
+
+    static async updateUser(req, res) {
+        try {
+
+            const { firstName, lastName, description, profile_img } = req.body;
+            const updatedFields = {};
+            
+            if (firstName) updatedFields.firstName = firstName;
+            if (lastName) updatedFields.lastName = lastName;
+            if (description) updatedFields.description = description;
+            if (profile_img) updatedFields.profile_img = profile_img;
+            
+            if (Object.keys(updatedFields).length > 0) {
+                const sequelize = (await db).sequelize;
+                const client = await user(sequelize).findOne({where: {id: req.user.id}})
+                await client.update(updatedFields);
+                await client.save();  
+            }
     
+            return res.status(200).json({ message: 'User updated successfully' });
+        } catch (e) {
+            return errMsg(res, e);
+        }
+    }
+
 
 
 

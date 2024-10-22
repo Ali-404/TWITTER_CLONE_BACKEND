@@ -1,5 +1,6 @@
 .vercel
 .env
+api/.env
 node_modules
 api/config/config.json
 frontend_fortest

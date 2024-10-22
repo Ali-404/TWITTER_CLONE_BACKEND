@@ -21,6 +21,7 @@ AuthRouter.post("/users/create",AuthController.validateUserCreation(), AuthContr
 
 
 
-
+// UPDATE
+AuthRouter.patch("/users/updateUser",authenticateToken, AuthController.updateUser)
 
 export default AuthRouter;

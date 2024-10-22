@@ -2,7 +2,10 @@ import { check, validationResult } from 'express-validator';
 import db, { errMsg } from '../models/index.js'
 import post from '../models/post.js'
 import vue from '../models/vue.js'
+import like from '../models/like.js'
 import comment from '../models/comment.js'
+import file from '../models/file.js';
+import FilesController from './FilesController.js';
 
 
 export default class PostController{
@@ -124,22 +127,39 @@ export default class PostController{
                     // 409 = cant edit 
                 }
                 // remove vues
+
+                const files = await file(sequelize).findAll({where: {postId: id}})
+                if (files && files.length > 0){
+                    files.forEach(async (f) => {
+                        
+                        await FilesController.deleteFileFunc(f.id, sequelize)
+                    })
+                }
+                
+                const likes = await like(sequelize).findAll({where: {posterId: id}});
+                if (likes && likes.length > 0){
+                    likes.forEach(l => l.destroy())
+                }
+
                 const vues = await vue(sequelize).findAll({where: {postId: id}});
-                if (vues){
-                    vues.forEach(vue => vue.destroy())
+                if (vues && vues.length > 0){
+                    vues.forEach(v => v.destroy())
                 }
 
                 // remove comments
                 const comments = await comment(sequelize).findAll({where: {postId: id}});
-                if (comments){
+                if (comments && comments.length > 0){
                     comments.forEach(c => c.destroy())
                 }
-                
+            
 
                 thePost.destroy()
                 return response.json({
                     "message":`Post #${thePost.id} deleted successfully.`
                 })
+                
+                
+
             }catch(e){
                 return errMsg(response, e)
             }
