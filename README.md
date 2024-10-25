@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the backend for a simple Twitter clone application that supports user authentication and tweet management. The backend is built using Node.js and Express.js and connects to a MongoDB database.
+This is the backend for a simple Twitter clone application that supports user authentication and tweet management. The backend is built using Node.js and Express.js and connects to a Mysql database.
 
 ## Features
 
@@ -14,7 +14,8 @@ This is the backend for a simple Twitter clone application that supports user au
 
 - **Node.js:** JavaScript runtime for building the backend.
 - **Express.js:** Web framework for building the API.
-- **MySql:** NoSQL database for storing user and tweet data.
+- **SEQUELIZE: Object/Relational Mapping SYSTEM.
+- **MySql:** SQL database for storing user and tweet data.
 - **JWT:** JSON Web Tokens for secure authentication.
 
 ## Installation
@@ -31,9 +32,10 @@ To set up the backend, follow these steps:
    cd TWITTER_CLONE_BACKEND
    ```
 
+(Dont Forget to migrate the db !)
 3. **Install the dependencies:**
    ```bash
-   npm install
+   npm run dev
    ```
 
 4. **Set up environment variables:** Create a `.env` file in the root directory and configure your database connection and any other necessary environment variables.
