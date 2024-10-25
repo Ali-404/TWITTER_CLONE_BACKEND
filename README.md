@@ -8,14 +8,13 @@ This is the backend for a simple Twitter clone application that supports user au
 
 - **User Authentication:** Secure sign-up and login for users.
 - **Tweet Management:** Create, read, update, and delete tweets.
-- **Database Integration:** Uses MongoDB for data storage and retrieval.
+- **Database Integration:** Uses Mysql for data storage and retrieval.
 
 ## Technologies Used
 
 - **Node.js:** JavaScript runtime for building the backend.
 - **Express.js:** Web framework for building the API.
-- **MongoDB:** NoSQL database for storing user and tweet data.
-- **Mongoose:** ODM for MongoDB and Node.js.
+- **MySql:** NoSQL database for storing user and tweet data.
 - **JWT:** JSON Web Tokens for secure authentication.
 
 ## Installation
@@ -46,13 +45,8 @@ To set up the backend, follow these steps:
 
 ## API Endpoints
 
-- **POST /api/auth/signup:** Register a new user.
-- **POST /api/auth/login:** Log in an existing user.
-- **GET /api/tweets:** Retrieve all tweets.
-- **POST /api/tweets:** Create a new tweet.
-- **PUT /api/tweets/:id:** Update an existing tweet.
-- **DELETE /api/tweets/:id:** Delete a tweet.
-
+- You can find them in the routers files
+  
 ## Frontend Repository
 
 The frontend for this application can be found at the following repository:
